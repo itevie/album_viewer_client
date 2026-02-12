@@ -1,3 +1,3 @@
-# album_viewer_client
+# Album Viewer Client
 
-A new Flutter project.
+A simple flutter album viewer for use with the album viewer server.
