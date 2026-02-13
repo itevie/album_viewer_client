@@ -1,9 +1,8 @@
 import 'package:album_viewer_client/api.dart';
 import 'package:album_viewer_client/base_scaffold.dart';
 import 'package:album_viewer_client/card.dart';
-import 'package:album_viewer_client/input_prompt.dart';
-import 'package:album_viewer_client/message_prompt.dart';
 import 'package:album_viewer_client/util.dart';
+import 'package:dawn_ui_flutter/prompts/prompts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';

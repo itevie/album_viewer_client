@@ -1,6 +1,6 @@
 name: album_viewer_client
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -15,6 +15,10 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.5.3
   web: ^1.1.1
+  dawn_ui_flutter:
+    git:
+      url: https://github.com/itevie/dawn_ui_flutter.git
+      ref: main
 
 dev_dependencies:
   flutter_test:

@@ -1,12 +1,10 @@
 import 'package:album_viewer_client/api.dart';
-import 'package:album_viewer_client/confirm_prompt.dart';
 import 'package:album_viewer_client/image_viewer.dart';
-import 'package:album_viewer_client/message_prompt.dart';
-import 'package:album_viewer_client/popup_menu.dart';
-import 'package:album_viewer_client/selector_prompt.dart';
 import 'package:album_viewer_client/util.dart';
+import 'package:dawn_ui_flutter/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import "package:dawn_ui_flutter/prompts/prompts.dart";
 
 class ImageGrid extends StatefulWidget {
   final List<Photo> photos;
