@@ -1,6 +1,6 @@
-import 'package:album_viewer_client/images_viewer.dart';
-import 'package:album_viewer_client/settings.dart';
-import 'package:album_viewer_client/tag_viewer.dart';
+import 'package:album_viewer_client/pages/images_viewer.dart';
+import 'package:album_viewer_client/pages/settings.dart';
+import 'package:album_viewer_client/pages/tag_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +13,6 @@ final router = GoRouter(
         return ImagesViewer(view: view != null ? int.tryParse(view) : null);
       },
     ),
-    GoRoute(path: '/home', builder: (_, __) => HomePage()),
     GoRoute(path: '/', builder: (_, __) => TagViewer()),
     GoRoute(path: '/settings', builder: (_, __) => SettingsPage()),
     GoRoute(

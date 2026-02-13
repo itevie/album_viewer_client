@@ -1,8 +1,8 @@
 import 'package:album_viewer_client/api.dart';
-import 'package:album_viewer_client/base_page.dart';
-import 'package:album_viewer_client/card.dart';
-import 'package:album_viewer_client/fullscreen_image.dart';
-import 'package:album_viewer_client/util.dart';
+import 'package:album_viewer_client/util/base_page.dart';
+import "package:dawn_ui_flutter/card.dart";
+import 'package:album_viewer_client/pages/fullscreen_image.dart';
+import 'package:album_viewer_client/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:web/web.dart' as web;

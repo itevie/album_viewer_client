@@ -1,6 +1,6 @@
 import 'package:album_viewer_client/api.dart';
-import 'package:album_viewer_client/image_viewer.dart';
-import 'package:album_viewer_client/util.dart';
+import 'package:album_viewer_client/pages/image_viewer.dart';
+import 'package:album_viewer_client/util/util.dart';
 import 'package:dawn_ui_flutter/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

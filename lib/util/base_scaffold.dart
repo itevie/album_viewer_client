@@ -1,4 +1,4 @@
-import 'package:album_viewer_client/base_page.dart';
+import 'package:album_viewer_client/util/base_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

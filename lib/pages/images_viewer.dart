@@ -1,9 +1,9 @@
 // ignore: unused_import
 import "dart:io";
 import 'package:album_viewer_client/api.dart';
-import 'package:album_viewer_client/base_scaffold.dart';
-import 'package:album_viewer_client/image_grid.dart';
-import 'package:album_viewer_client/util.dart';
+import 'package:album_viewer_client/util/base_scaffold.dart';
+import 'package:album_viewer_client/util/image_grid.dart';
+import 'package:album_viewer_client/util/util.dart';
 import 'package:dawn_ui_flutter/prompts/prompts.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

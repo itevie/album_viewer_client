@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:album_viewer_client/util.dart';
+import 'package:album_viewer_client/util/util.dart';
 import 'package:http/http.dart' as http;
 
 final String baseUrl =
