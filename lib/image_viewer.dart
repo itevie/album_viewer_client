@@ -1,6 +1,7 @@
 import 'package:album_viewer_client/api.dart';
 import 'package:album_viewer_client/base_page.dart';
 import 'package:album_viewer_client/card.dart';
+import 'package:album_viewer_client/fullscreen_image.dart';
 import 'package:album_viewer_client/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,6 +67,13 @@ class ImageViewer extends StatelessWidget {
         appBar: AppBar(
           title: Text("Photo: ${photo.name}"),
           actions: [
+            IconButton(
+              onPressed: () {
+                navigate(context, FullscreenImage(photo: photo));
+              },
+              icon: Icon(Icons.fullscreen),
+              tooltip: "View Fullscreen",
+            ),
             IconButton(
               onPressed: () {
                 downloadFromUrl("${photo.link}${getSmid()}", photo.name);
