@@ -83,9 +83,9 @@ class Stats {
   }
 }
 
-Future<ASession> createSession() async {
+Future<ASession> createSession(int duration) async {
   final res = await http.post(
-    Uri.parse("$baseUrl/session/create"),
+    Uri.parse("$baseUrl/session/create?lifetime=$duration"),
     headers: {"Admin-Session": getPassword() ?? ""},
   );
 

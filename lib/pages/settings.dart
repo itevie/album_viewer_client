@@ -63,9 +63,11 @@ class SettingsPageState extends State<SettingsPage> {
                     children: [
                       ElevatedButton.icon(
                         onPressed: () async {
+                          final duration = await showDurationPrompt(context);
+
                           ASession result;
                           try {
-                            result = await createSession();
+                            result = await createSession(duration!);
                           } catch (e) {
                             showMessagePrompt(
                               // ignore: use_build_context_synchronously
@@ -105,4 +107,75 @@ class SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
+}
+
+Future<int?> showDurationPrompt(BuildContext context) async {
+  final TextEditingController controller = TextEditingController(text: "1");
+  String selectedUnit = "day";
+
+  const Map<String, int> unitMultipliers = {
+    "hour": 60 * 60 * 1000,
+    "day": 24 * 60 * 60 * 1000,
+    "week": 7 * 24 * 60 * 60 * 1000,
+    "month": 30 * 24 * 60 * 60 * 1000,
+    "year": 365 * 24 * 60 * 60 * 1000,
+  };
+
+  return await showDialog<int>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Enter Duration"),
+        content: StatefulBuilder(
+          builder: (context, setState) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: "Amount"),
+                ),
+                const SizedBox(height: 16),
+                DropdownButton<String>(
+                  value: selectedUnit,
+                  isExpanded: true,
+                  items:
+                      unitMultipliers.keys
+                          .map(
+                            (unit) => DropdownMenuItem(
+                              value: unit,
+                              child: Text(unit),
+                            ),
+                          )
+                          .toList(),
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        selectedUnit = value;
+                      });
+                    }
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final int amount = int.tryParse(controller.text) ?? 0;
+              final int result = amount * unitMultipliers[selectedUnit]!;
+              Navigator.pop(context, result);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
 }
