@@ -26,6 +26,13 @@ final router = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/subtags/:name',
+      builder: (context, state) {
+        final name = state.pathParameters['name'];
+        return TagViewer(baseSubTag: name);
+      },
+    ),
 
     // GoRoute(path: '/settings', builder: (_,HomePage __) => const SettingsPage()),
   ],

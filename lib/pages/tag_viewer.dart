@@ -10,6 +10,9 @@ import 'package:go_router/go_router.dart';
 final Map<String, IconData> tagIconMap = {
   'trams': Icons.tram,
   "buses": Icons.directions_bus,
+  "bus": Icons.directions_bus,
+  "bus type": Icons.directions_bus,
+  "bus size": Icons.directions_bus,
   "macro": Icons.camera,
   "trains": Icons.train,
   "random": Icons.question_mark,
@@ -19,10 +22,14 @@ final Map<String, IconData> tagIconMap = {
 };
 
 class TagViewer extends StatelessWidget {
-  const TagViewer({super.key});
+  final String? baseSubTag;
+
+  const TagViewer({super.key, this.baseSubTag});
 
   @override
   Widget build(BuildContext context) {
+    List<String> subsCompleted = [];
+
     return BaseScaffold(
       fab:
           getPassword() != null
@@ -137,24 +144,21 @@ class TagViewer extends StatelessWidget {
                   return Wrap(
                     alignment: WrapAlignment.center,
                     children: [
-                      ...(snapshot.data ?? []).map(
-                        (el) => SizedBox(
+                      if (baseSubTag != null)
+                        SizedBox(
                           width: 250,
                           height: 250,
                           child: MyCard(
                             onTap: () {
-                              context.go("/tags/${el.name}");
+                              context.go("/");
                             },
                             child: Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  if (tagIconMap.containsKey(el.name)) ...[
-                                    Icon(tagIconMap[el.name], size: 48),
-                                    const SizedBox(height: 8),
-                                  ],
-                                  Text(
-                                    niceFormat(el.name),
+                                  Icon(Icons.chevron_left, size: 48),
+                                  const Text(
+                                    "Back",
                                     style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
@@ -165,7 +169,69 @@ class TagViewer extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
+                      ...(snapshot.data ?? []).map((el) {
+                        final sub = el.name.contains(";");
+
+                        String base = sub ? el.name.split(";")[0] : el.name;
+                        String? subTag = sub ? el.name.split(";")[1] : null;
+                        IconData? icon;
+
+                        if (baseSubTag == null) {
+                          if (sub && subsCompleted.contains(base)) {
+                            return null;
+                          }
+
+                          subsCompleted.add(base);
+                          icon = tagIconMap[base.toLowerCase()];
+                        } else {
+                          if (base != baseSubTag) return null;
+                          icon = tagIconMap[base.toLowerCase()];
+                          base = subTag!;
+                        }
+
+                        return SizedBox(
+                          width: 250,
+                          height: 250,
+                          child: MyCard(
+                            onTap: () {
+                              if (baseSubTag != null) {
+                                context.go("/tags/${el.name}");
+                              } else {
+                                context.go(
+                                  !sub ? "/tags/${el.name}" : "/subtags/$base",
+                                );
+                              }
+                            },
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (icon != null) ...[
+                                    Icon(icon, size: 48),
+                                    const SizedBox(height: 8),
+                                  ],
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        niceFormat(base),
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      if (sub && baseSubTag == null) ...[
+                                        const SizedBox(width: 4),
+                                        const Icon(Icons.chevron_right),
+                                      ],
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }).whereType<SizedBox>(),
                     ],
                   );
                 }

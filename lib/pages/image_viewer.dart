@@ -117,9 +117,9 @@ class ImageViewer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Expanded(
-                      child: Image.network(
-                        "${photo.link}${getSmid()}",
-                        fit: BoxFit.contain,
+                      child: ProgressiveImage(
+                        smallUrl: "${photo.link}&size=300",
+                        largeUrl: photo.link,
                       ),
                     ),
                     MyCard(child: details),
@@ -131,9 +131,9 @@ class ImageViewer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: Image.network(
-                      "${photo.link}${getSmid()}",
-                      fit: BoxFit.contain,
+                    child: ProgressiveImage(
+                      smallUrl: "${photo.link}${getSmid()}&size=300",
+                      largeUrl: "${photo.link}${getSmid()}",
                     ),
                   ),
                   SizedBox(width: 400, child: MyCard(child: details)),
@@ -163,4 +163,63 @@ void addViewParam(int id) {
   final newUri = uri.replace(queryParameters: newParams);
 
   web.window.history.replaceState(null, '', newUri.toString());
+}
+
+class ProgressiveImage extends StatefulWidget {
+  final String smallUrl;
+  final String largeUrl;
+
+  const ProgressiveImage({
+    super.key,
+    required this.smallUrl,
+    required this.largeUrl,
+  });
+
+  @override
+  State<ProgressiveImage> createState() => _ProgressiveImageState();
+}
+
+class _ProgressiveImageState extends State<ProgressiveImage> {
+  bool _largeLoaded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        if (!_largeLoaded) ...[
+          Image.network(
+            widget.smallUrl,
+            fit: BoxFit.contain,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Center(child: CircularProgressIndicator()),
+        ],
+        Image.network(
+          widget.largeUrl,
+          fit: BoxFit.contain,
+          width: double.infinity,
+          height: double.infinity,
+          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+            if (wasSynchronouslyLoaded || frame != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _largeLoaded = true;
+                  });
+                }
+              });
+            }
+
+            return AnimatedOpacity(
+              opacity: _largeLoaded ? 1 : 0,
+              duration: const Duration(milliseconds: 300),
+              child: child,
+            );
+          },
+        ),
+      ],
+    );
+  }
 }
